@@ -1,0 +1,21 @@
+###################
+# NetworkLayerOrder
+###################
+
+# ----------------- Experiment
+tag: null
+
+# ----------------- Training
+n_epochs: 100
+batch_size: 1024
+weight_decay: 0.0
+ini_lr: 1.0e-05
+max_lr: 8.0e-03
+min_lr: 1.0e-07
+
+#  ----------------- Dataloader
+num_workers: 4
+
+#  ----------------- Summary
+save_train_stats_every_n_epochs: 1
+save_test_stats_every_n_epochs: 5
