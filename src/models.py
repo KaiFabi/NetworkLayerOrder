@@ -23,8 +23,7 @@ class DenseLayerOrder(nn.Module):
         self.n_dims_in = prod(config["input_shape"])
         self.n_dims_out = config["n_classes"]
         self.n_dims_hidden = 1024
-        self.n_blocks = 4
-        # self.dropout_rate = 0.1
+        self.n_blocks = 8
 
         self.classifier = self.make_classifier(layer_config=layer_config, n_blocks=self.n_blocks)
 
@@ -42,8 +41,8 @@ class DenseLayerOrder(nn.Module):
             for layer in layer_config:
                 if layer is torch.nn.BatchNorm1d:
                     layers.append(nn.BatchNorm1d(num_features=self.n_dims_hidden))
-                # elif layer is nn.Dropout:
-                #     layers.append(nn.Dropout(p=self.dropout_rate))
+                elif layer is nn.Dropout:
+                    layers.append(nn.Dropout(p=self.dropout_rate))
                 elif layer is nn.Linear:
                     layers.append(nn.Linear(in_features=self.n_dims_hidden,
                                             out_features=self.n_dims_hidden))
@@ -82,7 +81,7 @@ class ConvLayerOrder(nn.Module):
         self.n_channels_hidden = 32
         self.n_channels_out = 16
         self.n_dims_out = 10
-        self.n_blocks = 4
+        self.n_blocks = 8
 
         self.features = self._feature_extractor(layer_config=layer_config, n_blocks=self.n_blocks)
         self.classifier = nn.Linear(self.n_channels_out*(self.n_dims_in[-1]//2)**2, self.n_dims_out)
@@ -105,8 +104,8 @@ class ConvLayerOrder(nn.Module):
             for layer in layer_config:
                 if layer is torch.nn.BatchNorm2d:
                     layers.append(nn.BatchNorm2d(num_features=self.n_channels_hidden))
-                # elif layer is nn.Dropout:
-                #     layers.append(nn.Dropout(p=self.dropout_rate))
+                elif layer is nn.Dropout:
+                    layers.append(nn.Dropout(p=self.dropout_rate))
                 elif layer is nn.Conv2d:
                     layers.append(nn.Conv2d(in_channels=self.n_channels_hidden,
                                             out_channels=self.n_channels_hidden,

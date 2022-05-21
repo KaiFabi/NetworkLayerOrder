@@ -38,7 +38,8 @@ def visualize_results(outputs_dir: str, results_dir: str):
     for event_path in event_paths:
         key = path_to_key(path=event_path)
         data_dict = pd.read_pickle(event_path).to_dict()
-        events[key].append(data_dict)
+        if "test_accuracy" in data_dict:
+            events[key].append(data_dict)
 
     # Metrics of interest
     # metrics = ["test_accuracy", "test_loss", "train_accuracy", "train_loss"]
